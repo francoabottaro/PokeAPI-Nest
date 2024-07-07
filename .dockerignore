@@ -1,6 +1,8 @@
 node_modules
+mongo
 dist
 test
+.env
 .git
 .gitignore
 README.md
