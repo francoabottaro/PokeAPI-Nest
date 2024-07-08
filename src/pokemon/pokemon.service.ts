@@ -68,8 +68,26 @@ export class PokemonService {
     return pokemon;
   }
 
-  update(id: string, updatePokemonDto: UpdatePokemonDto) {
-    return `This action updates a #${id} pokemon`;
+  async update(paramSearch: string, updatePokemonDto: UpdatePokemonDto) {
+    try {
+      const pokemon = await this.findOne(paramSearch);
+      if (updatePokemonDto.name) {
+        updatePokemonDto.name = updatePokemonDto.name.toLowerCase();
+      }
+
+      await pokemon.updateOne(updatePokemonDto);
+      return { ...pokemon.toJSON(), ...updatePokemonDto };
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new BadRequestException(
+          `Pokemon exists in db ${JSON.stringify(error.keyValue)}`
+        );
+      }
+      console.log(error);
+      throw new InternalServerErrorException(
+        "Can't update Pokemon - Check server logs"
+      );
+    }
   }
 
   remove(id: string) {
