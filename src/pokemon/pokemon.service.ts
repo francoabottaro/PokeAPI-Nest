@@ -1,26 +1,78 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException
+} from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
+import { Pokemon } from './entities/pokemon.entity';
 
 @Injectable()
 export class PokemonService {
-  create(createPokemonDto: CreatePokemonDto) {
-    return 'This action adds a new pokemon';
+  constructor(
+    @InjectModel(Pokemon.name)
+    private readonly pokemonModel: Model<Pokemon>
+  ) {}
+  async create(createPokemonDto: CreatePokemonDto) {
+    createPokemonDto.name = createPokemonDto.name.toLowerCase();
+    try {
+      //* Create Pokemon
+      const pokemon = await this.pokemonModel.create(createPokemonDto);
+      return pokemon;
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new BadRequestException(
+          `Pokemon exists in db ${JSON.stringify(error.keyValue)}`
+        );
+      }
+      console.log(error);
+      throw new InternalServerErrorException(
+        "Can't create Pokemon - Check server logs"
+      );
+    }
   }
 
   findAll() {
     return `This action returns all pokemon`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pokemon`;
+  async findOne(paramSearch: string) {
+    let pokemon: Pokemon;
+
+    //? NO: Pokemon list number
+    if (!isNaN(+paramSearch)) {
+      pokemon = await this.pokemonModel.findOne({ no: paramSearch });
+    }
+
+    //? Id: MongoDB ID
+    if (!pokemon && isValidObjectId(paramSearch)) {
+      pokemon = await this.pokemonModel.findById(paramSearch);
+    }
+
+    //? name: Pokemon name
+    if (!pokemon) {
+      pokemon = await this.pokemonModel.findOne({
+        name: paramSearch.toLowerCase
+      });
+    }
+
+    //! Pokemon NotFound
+    if (!pokemon)
+      throw new NotFoundException(
+        `Pokemon with id, name o 'no' not found: ${paramSearch}`
+      );
+
+    return pokemon;
   }
 
-  update(id: number, updatePokemonDto: UpdatePokemonDto) {
+  update(id: string, updatePokemonDto: UpdatePokemonDto) {
     return `This action updates a #${id} pokemon`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} pokemon`;
   }
 }
