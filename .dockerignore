@@ -1,8 +1,10 @@
 node_modules
 mongo
 dist
-test
 .env
 .git
 .gitignore
+.eslintrc.js
+.prettierrc
+test
 README.md
