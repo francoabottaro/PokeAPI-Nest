@@ -9,7 +9,7 @@ import { SeedModule } from './seed/seed.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'Public')
+      rootPath: join(__dirname, '..', 'public')
     }),
 
     MongooseModule.forRoot('mongodb://db:27017/pokedex'),
