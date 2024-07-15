@@ -15,6 +15,9 @@ services:
       - 3000:3000
     volumes:
       - ./src:/usr/src/app/src
+      - ./Public:/usr/src/app/Public
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./nest-cli.json:/usr/src/app/nest-cli.json
   db:
     image: mongo:4.4
     restart: always
