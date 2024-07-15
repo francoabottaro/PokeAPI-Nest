@@ -15,7 +15,7 @@ services:
       - 3000:3000
     volumes:
       - ./src:/usr/src/app/src
-      - ./Public:/usr/src/app/Public
+      - ./public:/usr/src/app/public
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./nest-cli.json:/usr/src/app/nest-cli.json
   db:
