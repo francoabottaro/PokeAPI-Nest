@@ -11,16 +11,10 @@
 yarn install
 ```
 
-3. Tener Nest CLI instalado
+3. Levantar el proyecto con docker
 
 ```
-npm i -g @nestjs/cli
-```
-
-4. Levantar la base de datos
-
-```
-docker-compose up -d
+npm run start:docker
 ```
 
 ## Stack usado
