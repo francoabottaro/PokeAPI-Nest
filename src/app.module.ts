@@ -12,7 +12,7 @@ import { SeedModule } from './seed/seed.module';
       rootPath: join(__dirname, '..', 'public')
     }),
 
-    MongooseModule.forRoot('mongodb://db:27017/pokedex'),
+    MongooseModule.forRoot('mongodb://localhost:27017/pokedex'),
 
     PokemonModule,
 
