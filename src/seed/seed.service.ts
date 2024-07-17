@@ -4,7 +4,7 @@ import { PokeResponse } from './interfaces/poke-response.interface';
 
 @Injectable()
 export class SeedService {
-  private readonly axios: AxiosInstance;
+  private readonly axios: AxiosInstance = this.axios;
   async executeSeed() {
     const { data } = await this.axios.get<PokeResponse>(
       'https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0'
