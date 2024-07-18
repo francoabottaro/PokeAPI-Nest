@@ -5,6 +5,10 @@
 # Ejecutar en desarrollo
 
 1. Clonar el repositorio
+```
+git clone https://github.com/francoabottaro/Pokedex.git
+```
+
 2. Ejecuta
 
 ```
