@@ -4,21 +4,28 @@
 
 # Ejecutar en desarrollo
 
-1. Clonar el repositorio
+1. Clonar el repositorio:
+
 ```
 git clone https://github.com/francoabottaro/Pokedex.git
 ```
 
-2. Ejecuta
+2. Ejecuta:
 
 ```
 yarn install
 ```
 
-3. Levantar el proyecto con docker
+3. Levantar el proyecto con docker:
 
 ```
 npm run start:docker
+```
+
+4. Ingresar pokemons en la base de datos con HTTP GET:
+
+```
+http://localhost:3000/api/v2/seed
 ```
 
 ## Stack usado
