@@ -25,3 +25,4 @@ npm run start:docker
 
 - MongoDB
 - NestJS
+- Docker
