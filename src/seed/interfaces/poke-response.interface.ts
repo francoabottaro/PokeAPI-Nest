@@ -1,7 +1,7 @@
 export interface PokeResponse {
   count: number;
-  next: string;
-  previous: string;
+  next: string | null;
+  previous: string | null;
   results: Result[];
 }
 
