@@ -12,15 +12,27 @@ export class SeedService {
     @InjectModel(Pokemon.name)
     private readonly pokemonMondel: Model<Pokemon>
   ) {}
+
+  //* Insertion SEED
   async executeSeed() {
     const { data } = await this.axios.get<PokeResponse>(
       'https://pokeapi.co/api/v2/pokemon?limit=650'
     );
-    data.results.forEach(async ({ name, url }) => {
+
+    const pokemonToInsert: { name: string; no: number }[] = [];
+
+    data.results.forEach(({ name, url }) => {
       const segments = url.split('/');
       const no = +segments[segments.length - 2];
-      await this.pokemonMondel.create({ name, no });
+      pokemonToInsert.push({ name, no });
     });
+    await this.pokemonMondel.insertMany(pokemonToInsert);
     return 'Seed Execute';
+  }
+
+  // !Delete
+  async DeleteAll() {
+    await this.pokemonMondel.deleteMany({});
+    return 'Delete All';
   }
 }
