@@ -9,6 +9,7 @@ import { isValidObjectId, Model } from 'mongoose';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { Pokemon } from './entities/pokemon.entity';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class PokemonService {
@@ -27,10 +28,18 @@ export class PokemonService {
     }
   }
 
-  findAll() {
-    return `This action returns all pokemon`;
+  //* GetAll
+  findAll(paginationDto: PaginationDto) {
+    const { limit = 10, offcest = 0 } = paginationDto;
+    return this.pokemonModel
+      .find()
+      .limit(limit)
+      .skip(offcest)
+      .sort({ no: 1 })
+      .select('-__v');
   }
 
+  //* GetOne
   async findOne(paramSearch: string) {
     let pokemon: Pokemon;
 
@@ -60,6 +69,7 @@ export class PokemonService {
     return pokemon;
   }
 
+  // ? Patch
   async update(paramSearch: string, updatePokemonDto: UpdatePokemonDto) {
     try {
       const pokemon = await this.findOne(paramSearch);
@@ -73,15 +83,15 @@ export class PokemonService {
       this.handleExceptions(error);
     }
   }
-
+  // ! Delete
   async remove(id: string) {
     const { deletedCount } = await this.pokemonModel.deleteOne({ _id: id });
     if (deletedCount === 0)
       throw new BadRequestException(`Pokemon with id ${id} not found`);
-
     return `delete complete`;
   }
 
+  // Handler notFould
   private handleExceptions(error: any) {
     if (error.code === 11000) {
       throw new BadRequestException(
