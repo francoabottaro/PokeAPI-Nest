@@ -22,7 +22,11 @@ yarn install
 npm run start:docker
 ```
 
-4. Ingresar pokemons en la base de datos con HTTP GET:
+4. Clonar el archivo **.env.template** y renombrar la copia a **.env**
+
+5. Llenar la variables de entorno definida en el **.env**
+
+6. Ingresar pokemons en la base de datos con HTTP GET:
 
 ```
 http://localhost:3000/api/v2/seed
